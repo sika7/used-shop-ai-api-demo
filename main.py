@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import os
+os.environ["MCP_ALLOWED_HOSTS"] = os.environ.get(
+    "MCP_ALLOWED_HOSTS",
+    "used-shop-ai-api-demo-production.up.railway.app"
+)
+
 """
 中古ショップ MCPサーバー
 FastMCP (公式SDKのSSEトランスポート) でRailwayにデプロイ
@@ -7,12 +14,6 @@ Claudeアプリ → mcp-remote → このサーバー の構成で動く
 
 from mcp.server.fastmcp import FastMCP
 from typing import Optional
-
-import os
-os.environ["MCP_ALLOWED_HOSTS"] = os.environ.get(
-    "MCP_ALLOWED_HOSTS",
-    "used-shop-ai-api-demo-production.up.railway.app"
-)
 
 mcp = FastMCP("中古ショップ AI検索")
 
