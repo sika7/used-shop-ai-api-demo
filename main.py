@@ -161,5 +161,6 @@ def get_item_detail(item_id: int) -> str:
 # ── 起動 ──────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import os
+    import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    mcp.run(transport="sse", host="0.0.0.0", port=port)
+    uvicorn.run(mcp.sse_app(), host="0.0.0.0", port=port)
