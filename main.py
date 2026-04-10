@@ -168,21 +168,7 @@ def get_item_detail(item_id: int) -> str:
 # ── 起動 ──────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import os
-    import uvicorn
-    from starlette.types import ASGIApp, Receive, Scope, Send
-
-    class FixHostMiddleware:
-        def __init__(self, app: ASGIApp):
-            self.app = app
-
-        async def __call__(self, scope: Scope, receive: Receive, send: Send):
-            if scope["type"] in ("http", "websocket"):
-                headers = [(k, v) for k, v in scope.get("headers", [])
-                           if k.lower() != b"host"]
-                headers.append((b"host", b"localhost"))
-                scope["headers"] = headers
-            await self.app(scope, receive, send)
-
     port = int(os.environ.get("PORT", 8000))
-    app = FixHostMiddleware(mcp.sse_app())
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    mcp.settings.host = "0.0.0.0"
+    mcp.settings.port = port
+    mcp.run(transport="streamable-http")
