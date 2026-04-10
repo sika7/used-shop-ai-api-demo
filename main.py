@@ -13,9 +13,24 @@ Claudeアプリ → mcp-remote → このサーバー の構成で動く
 """
 
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 from typing import Optional
 
-mcp = FastMCP("中古ショップ AI検索")
+mcp = FastMCP(
+    "中古ショップ AI検索",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            "used-shop-ai-api-demo-production.up.railway.app",
+            "localhost:*",
+            "127.0.0.1:*",
+        ],
+        allowed_origins=[
+            "https://used-shop-ai-api-demo-production.up.railway.app",
+            "http://localhost:*",
+        ],
+    )
+)
 
 # ── 在庫データ ─────────────────────────────────────────────────────
 INVENTORY = [
